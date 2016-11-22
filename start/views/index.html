@@ -95,12 +95,44 @@
   var restaurants = {{ restaurants | dump | safe }};
   var activities = {{ activities | dump | safe }};
 
-  var selected = $('#options-panel select').on('change', function(){
-    return $(this).val();
-  });
+  // var selected = $('#options-panel select').on('change', function(){
+  //   for(var i=0; i<this.length; i++){
+  //     if($(i).selected === true) return $(i).text;
+  //   }
+  // });
+  var hotels_It = [];
+  var restaurants_It = [];
+  var activities_It = [];
+
+  // console.log(hotels);
+  // console.log(restaurants);
+  // console.log(activities);
 
   $('#options-panel button').on('click', function(){
-    console.log(selected);
+    var choice = $(this).siblings('select');
+    var type = choice[0].id.split('-')[0];
+    console.log(choice[0].id);
+    var selected = choice.val();
+
+    if(type === 'hotel') {
+      hotels_It.push(hotels.find(function(object){
+        return object.name === selected
+      }));
+    }
+    else if(type === 'restaurant') {
+      restaurants_It.push(restaurants.find(function(object){
+        return object.name === selected
+      }));
+    }
+    else if(type === 'activity') {
+      activities_It.push(activities.find(function(object){
+        return object.name === selected
+      }));
+    }
+
+    // console.log(hotels_It);
+    // console.log(restaurants_It);
+    // console.log(activities_It);
   });
 
 
