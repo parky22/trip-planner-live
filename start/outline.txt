@@ -1,0 +1,17 @@
+Selector Section:
+- blue add button:
+  - adds selection to itinerary
+  - marks point on map
+
+Itinerary Section:
+- red delete button:
+  - deletes things from list
+  - removes point from map
+- blue day add button:
+  - adds new day
+- red day delete button:
+  - deletes day
+- day buttons:
+  - selects and shows day's itinerary
+
+*data needs to be retained
