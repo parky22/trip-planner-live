@@ -60,7 +60,7 @@
         <div class="panel-body" id="itinerary">
           <div>
             <h4>My Hotel</h4>
-            <ul class="list-group">
+            <ul class="list-group" id="hotel-itinerary">
               <!--<div class="itinerary-item">
                 <span class="title"></span>
                 <button class="btn btn-xs btn-danger remove btn-circle">x</button>
@@ -69,7 +69,7 @@
           </div>
           <div>
             <h4>My Restaurants</h4>
-            <ul class="list-group">
+            <ul class="list-group" id="restaurant-itinerary">
               <!--<div class="itinerary-item">
                 <span class="title"></span>
                 <button class="btn btn-xs btn-danger remove btn-circle">x</button>
@@ -78,7 +78,7 @@
           </div>
           <div>
             <h4>My Activities</h4>
-            <ul class="list-group">
+            <ul class="list-group" id="activity-itinerary">
               <!--<div class="itinerary-item">
                 <span class="title"></span>
                 <button class="btn btn-xs btn-danger remove btn-circle">x</button>
@@ -111,30 +111,45 @@
   $('#options-panel button').on('click', function(){
     var choice = $(this).siblings('select');
     var type = choice[0].id.split('-')[0];
-    console.log(choice[0].id);
+    // console.log(choice[0].id);
     var selected = choice.val();
 
     if(type === 'hotel') {
-      hotels_It.push(hotels.find(function(object){
+      let addedHotel = hotels.find(function(object){
         return object.name === selected
-      }));
+      })
+      hotels_It.push(addedHotel);
+      $ ( '#hotel-itinerary').append(
+        '<div class="itinerary-item" id="' + selected + '"><span class="title">'+ selected +'</span><button class="btn btn-xs btn-danger remove btn-circle">x</button> </div>');
+      $.initializeMap.drawMarker('hotel', addedHotel.place.location)
+
     }
     else if(type === 'restaurant') {
-      restaurants_It.push(restaurants.find(function(object){
+      let addedRest = restaurants.find(function(object){
         return object.name === selected
-      }));
+      })
+      restaurants_It.push(addedRest);
+      $ ( '#restaurant-itinerary').append(
+        '<div class="itinerary-item"><span class="title">'+ selected +'</span><button class="btn btn-xs btn-danger remove btn-circle">x</button> </div>');
+      initializeMap.drawMarker('restaurant', addedRest.place.location);
     }
     else if(type === 'activity') {
-      activities_It.push(activities.find(function(object){
+      let addedActivity = activities.find(function(object){
         return object.name === selected
-      }));
+      })
+      activities_It.push(addedActivity);
+      $ ( '#activity-itinerary').append(
+        '<div class="itinerary-item"><span class="title">'+ selected +'</span><button class="btn btn-xs btn-danger remove btn-circle">x</button> </div>');
+      initializeMap.drawMarker('activity', addedActivity.place.location);
     }
 
     // console.log(hotels_It);
     // console.log(restaurants_It);
     // console.log(activities_It);
-  });
 
+    $('.list-group')
+
+  });
 
 </script>
 {% endblock %}
