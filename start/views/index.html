@@ -95,11 +95,6 @@
   var restaurants = {{ restaurants | dump | safe }};
   var activities = {{ activities | dump | safe }};
 
-  // var selected = $('#options-panel select').on('change', function(){
-  //   for(var i=0; i<this.length; i++){
-  //     if($(i).selected === true) return $(i).text;
-  //   }
-  // });
   var hotels_It = [];
   var restaurants_It = [];
   var activities_It = [];
@@ -118,38 +113,56 @@
       let addedHotel = hotels.find(function(object){
         return object.name === selected
       })
+      addedHotel.marker = drawMarker('hotel', addedHotel.place.location);
       hotels_It.push(addedHotel);
       $ ( '#hotel-itinerary').append(
         '<div class="itinerary-item" id="' + selected + '"><span class="title">'+ selected +'</span><button class="btn btn-xs btn-danger remove btn-circle">x</button> </div>');
-      $.initializeMap.drawMarker('hotel', addedHotel.place.location)
 
     }
     else if(type === 'restaurant') {
       let addedRest = restaurants.find(function(object){
         return object.name === selected
       })
+      addedRest.marker = drawMarker('restaurant', addedRest.place.location);
       restaurants_It.push(addedRest);
       $ ( '#restaurant-itinerary').append(
-        '<div class="itinerary-item"><span class="title">'+ selected +'</span><button class="btn btn-xs btn-danger remove btn-circle">x</button> </div>');
-      initializeMap.drawMarker('restaurant', addedRest.place.location);
+        '<div class="itinerary-item" id="' + selected + '"><span class="title">'+ selected +'</span><button class="btn btn-xs btn-danger remove btn-circle">x</button> </div>');
     }
     else if(type === 'activity') {
       let addedActivity = activities.find(function(object){
         return object.name === selected
       })
+      addedActivity.marker = drawMarker('activity', addedActivity.place.location);
       activities_It.push(addedActivity);
       $ ( '#activity-itinerary').append(
-        '<div class="itinerary-item"><span class="title">'+ selected +'</span><button class="btn btn-xs btn-danger remove btn-circle">x</button> </div>');
-      initializeMap.drawMarker('activity', addedActivity.place.location);
+        '<div class="itinerary-item" id="' + selected + '"><span class="title">'+ selected +'</span><button class="btn btn-xs btn-danger remove btn-circle">x</button> </div>');
     }
 
-    // console.log(hotels_It);
-    // console.log(restaurants_It);
-    // console.log(activities_It);
-
-    $('.list-group')
-
   });
+
+  $('#itinerary').on('click', '.remove', function() {
+    let parentId = $(this).parent().attr('id');
+    let groupId = $(this).parent().parent().attr('id').split('-')[0];
+    if (groupId === 'hotel'){
+      hotels_It = removeItin.call(this, parentId, hotels_It);
+    }else if (groupId === 'restaurant'){
+      restaurants_It = removeItin.call(this, parentId, restaurants_It);
+    }else if (groupId === 'activity'){
+      activities_It = removeItin.call(this, parentId, activities_It);
+    }
+
+  })
+
+  let removeItin = function (parentId, itArr){
+    let removed = itArr.find(function(object){
+      return object.name === parentId;
+    })
+    $(this).parent().remove();
+    removed.marker.setMap(null);
+    return itArr.filter(function(object){
+      return object.name !== parentId;
+    })
+  }
 
 </script>
 {% endblock %}
