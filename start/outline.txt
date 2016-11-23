@@ -4,11 +4,12 @@
 #  - marks point on map
 
 Itinerary Section:
-- red delete button:
+#- red delete button:
 #  - deletes things from list
-  - removes point from map
+#  - removes point from map
 - blue day add button:
-  - adds new day
+  - adds new day to the panel
+  - show a new empty itinerary
 - red day delete button:
   - deletes day
 - day buttons:
